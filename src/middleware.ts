@@ -4,6 +4,18 @@ import { randomUUID } from 'node:crypto'
 import { storage, ringBuffer } from './store.ts'
 import type { RequestData } from './types.ts'
 
+function parseHandler(raw: string): string {
+  const match = raw.match(/import\(['"]([^'"]+)['"]\)\s*,\s*(\w+)/)
+  if (match) {
+    const lastSegment = match[1].split('/').pop() ?? match[1]
+    const className = lastSegment
+      .replace(/_([a-z])/g, (_, c: string) => c.toUpperCase())
+      .replace(/^[a-z]/, (c: string) => c.toUpperCase())
+    return `${className}.${match[2]}`
+  }
+  return raw
+}
+
 export default class DebugbarMiddleware {
   async handle(ctx: HttpContext, next: NextFn) {
     if (process.env.DEBUG_BAR !== 'true') {
@@ -72,19 +84,27 @@ export default class DebugbarMiddleware {
             }
           }
 
+          const rawHandler =
+            typeof handler === 'object' && handler !== null && 'reference' in handler
+              ? String((handler as Record<string, unknown>).reference)
+              : String(handler)
+
           entry.route = {
             pattern: ctx.route.pattern,
             method: ctx.request.method(),
-            handler:
-              typeof handler === 'object' && handler !== null && 'reference' in handler
-                ? String((handler as Record<string, unknown>).reference)
-                : String(handler),
+            handler: parseHandler(rawHandler),
             middleware: mwItems.map((m) => {
               if (m && typeof m === 'object') {
                 const obj = m as Record<string, unknown>
-                return String(obj.name ?? obj.type ?? obj.handle ?? m)
+                const name = obj.name || obj.type
+                if (name) return String(name)
+                if (typeof obj.handle === 'function') {
+                  return (obj.handle as { name?: string }).name || 'Inline'
+                }
+                return 'Inline'
               }
-              return typeof m === 'function' ? (m as { name?: string }).name || 'fn' : String(m)
+              if (typeof m === 'function') return (m as { name?: string }).name || 'Inline'
+              return String(m) || 'Inline'
             }),
           }
         }

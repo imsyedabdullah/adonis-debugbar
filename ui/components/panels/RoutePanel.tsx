@@ -68,7 +68,10 @@ export function RoutePanel({ route }: Props) {
                 }}>
                   {i + 1}
                 </span>
-                <span style={{ fontFamily: 'monospace', fontSize: 12, color: s.blue }}>{m}</span>
+                {m === 'Inline'
+                  ? <span style={{ fontFamily: 'monospace', fontSize: 12, color: s.textMuted, fontStyle: 'italic' }}>Inline</span>
+                  : <span style={{ fontFamily: 'monospace', fontSize: 12, color: s.blue }}>{m}</span>
+                }
               </div>
             ))}
           </div>
