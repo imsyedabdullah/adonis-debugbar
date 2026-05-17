@@ -9,12 +9,11 @@ import { SessionPanel } from './panels/SessionPanel'
 import { MessagesPanel } from './panels/MessagesPanel'
 import { ConsolePanel } from './panels/ConsolePanel'
 import { ExceptionsPanel } from './panels/ExceptionsPanel'
-import { ViewsPanel } from './panels/ViewsPanel'
 import { InertiaPanel } from './panels/InertiaPanel'
 import { s, statusColor, methodColor, durationColor } from './styles'
 import type { CapturedRequest, InertiaPageSnapshot } from '../types'
 
-type Tab = 'messages' | 'console' | 'timeline' | 'queries' | 'exceptions' | 'views' | 'inertia' | 'request' | 'route' | 'session'
+type Tab = 'messages' | 'console' | 'timeline' | 'queries' | 'exceptions' | 'inertia' | 'request' | 'route' | 'session'
 
 interface Props {
   baseUrl?: string
@@ -293,7 +292,6 @@ export function Debugbar({ baseUrl = '' }: Props) {
     { key: 'timeline',   label: 'Timeline' },
     { key: 'queries',    label: 'Queries',    badge: data?.queries.count },
     { key: 'exceptions', label: 'Exceptions', badge: data?.exceptions.length, badgeColor: data?.exceptions.length ? s.red : undefined },
-    { key: 'views',      label: 'Views',      badge: data?.views.length },
     { key: 'inertia',    label: 'Inertia',    badge: inertiaSnapshot ? undefined : undefined },
     { key: 'request',    label: 'Request' },
     { key: 'route',      label: 'Route' },
@@ -356,7 +354,6 @@ export function Debugbar({ baseUrl = '' }: Props) {
               {!loading && data && activeTab === 'timeline'   && <Timeline data={data} />}
               {!loading && data && activeTab === 'queries'    && <Queries key={data.id} queries={data.queries.entries} requestId={data.id} baseUrl={baseUrl} />}
               {!loading && data && activeTab === 'exceptions' && <ExceptionsPanel exceptions={data.exceptions} />}
-              {!loading && data && activeTab === 'views'      && <ViewsPanel views={data.views} />}
               {activeTab === 'inertia'    && <InertiaPanel snapshot={inertiaSnapshot} />}
               {!loading && data && activeTab === 'request'    && <RequestPanel data={data} />}
               {!loading && data && activeTab === 'route'      && <RoutePanel route={data.route} />}

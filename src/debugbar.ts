@@ -1,6 +1,6 @@
 import { storage } from './store.ts'
 import { captureCallSite } from './callsite.ts'
-import type { LogLevel, ViewRecord } from './types.ts'
+import type { LogLevel } from './types.ts'
 
 function nowMs(): number {
   const entry = storage.getStore()
@@ -32,13 +32,6 @@ export const Debugbar = {
       stack: e.stack ?? null,
       timestamp: Date.now(),
     })
-  },
-
-  /** Manually record an Inertia view (or any template). */
-  addView: (component: string, props: ViewRecord['props'] = {}, url = ''): void => {
-    const entry = storage.getStore()
-    if (!entry) return
-    entry.views.push({ component, props, url })
   },
 
   /** Add a named marker pin on the timeline ruler (shown as a vertical tick). */

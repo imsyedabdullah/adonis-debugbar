@@ -22,12 +22,6 @@ export interface ExceptionRecord {
   timestamp: number
 }
 
-export interface ViewRecord {
-  component: string
-  props: Record<string, unknown>
-  url: string
-}
-
 export interface QueryRecord {
   sql: string
   bindings: unknown[]
@@ -99,7 +93,6 @@ export interface RequestData {
   timeline: TimelineInfo
   queries: QueriesInfo
   exceptions: ExceptionRecord[]
-  views: ViewRecord[]
   request: RequestInfo
   route: RouteInfo | null
   session: SessionInfo

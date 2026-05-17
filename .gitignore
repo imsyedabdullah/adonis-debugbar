@@ -1,4 +1,5 @@
 node_modules/
 build/
 public/debugbar.js
+public/debugbar.js.map
 *.tsbuildinfo

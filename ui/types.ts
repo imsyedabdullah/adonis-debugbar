@@ -77,12 +77,6 @@ export interface InertiaPageSnapshot {
   version: string | null
 }
 
-export interface ViewRecord {
-  component: string
-  props: Record<string, unknown>
-  url: string
-}
-
 export interface QueriesInfo {
   count: number
   totalDuration: number
@@ -133,7 +127,6 @@ export interface DebugbarData {
   timeline: TimelineInfo
   queries: QueriesInfo
   exceptions: ExceptionRecord[]
-  views: ViewRecord[]
   request: RequestInfo
   route: RouteInfo | null
   session: SessionInfo | null

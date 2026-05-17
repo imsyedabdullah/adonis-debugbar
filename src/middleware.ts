@@ -29,7 +29,6 @@ export default class DebugbarMiddleware {
       timeline: { total: 0, entries: [], markers: [], measures: [] },
       queries: { count: 0, totalDuration: 0, entries: [] },
       exceptions: [],
-      views: [],
       request: {
         headers: Object.fromEntries(
           Object.entries(ctx.request.headers()).map(([k, v]) => [k, String(v ?? '')])
@@ -105,25 +104,6 @@ export default class DebugbarMiddleware {
           }
         } catch {
           /* session middleware may not be present on this route */
-        }
-
-        if (!entry.views.length) {
-          try {
-            const res = ctx.response as unknown as Record<string, unknown>
-            const body = res.outgoingBody ?? res.body ?? null
-            if (body && typeof body === 'object') {
-              const b = body as Record<string, unknown>
-              if (typeof b.component === 'string') {
-                entry.views.push({
-                  component: b.component,
-                  props: (b.props as Record<string, unknown>) ?? {},
-                  url: (b.url as string | undefined) ?? ctx.request.url(true),
-                })
-              }
-            }
-          } catch {
-            /* response body not accessible */
-          }
         }
 
         ringBuffer.push(entry)
