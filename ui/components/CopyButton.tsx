@@ -1,21 +1,23 @@
-import React, { useState, useCallback } from 'react'
-import { s } from './styles'
+import React, { useState, useCallback } from 'preact/compat';
+import { s } from './styles';
 
 interface Props {
-  getData: () => string
-  label?: string
+  getData: () => string;
+  label?: string;
 }
 
 export function CopyButton({ getData, label = 'Copy' }: Props) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(getData())
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
-    } catch { /* clipboard unavailable */ }
-  }, [getData])
+      await navigator.clipboard.writeText(getData());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* clipboard unavailable */
+    }
+  }, [getData]);
 
   return (
     <button
@@ -35,5 +37,5 @@ export function CopyButton({ getData, label = 'Copy' }: Props) {
     >
       {copied ? '✓ Copied' : label}
     </button>
-  )
+  );
 }

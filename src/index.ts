@@ -1,5 +1,5 @@
-export { storage, ringBuffer } from './store.ts'
-export { Debugbar } from './debugbar.ts'
+export { storage, ringBuffer } from './store.ts';
+export { Debugbar } from './debugbar.ts';
 export type {
   RequestData,
   QueryRecord,
@@ -18,4 +18,4 @@ export type {
   DbClient,
   ExplainTimings,
   ExplainResult,
-} from './types.ts'
+} from './types.ts';

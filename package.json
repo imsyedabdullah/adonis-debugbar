@@ -1,7 +1,7 @@
 {
   "name": "adonis-debugbar",
   "version": "0.1.0",
-  "description": "Per-request debug bar for AdonisJS — timing, SQL queries, route info, session, views, messages, exceptions and timeline markers. Works with any frontend stack.",
+  "description": "Per-request debug bar for AdonisJS: timing, SQL queries, route info, session, views, messages, exceptions and timeline markers. Works with any frontend stack.",
   "type": "module",
   "author": "Syed Abdullah <2syedabdullah@gmail.com>",
   "license": "MIT",
@@ -51,6 +51,7 @@
     "dev": "tsc --project tsconfig.json --watch",
     "prepublishOnly": "pnpm run build",
     "typecheck": "tsc --noEmit",
+    "format": "eslint src ui --fix",
     "lint": "eslint src ui",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -79,11 +80,13 @@
     "development"
   ],
   "devDependencies": {
+    "@adonisjs/eslint-config": "^3.0.0",
     "@adonisjs/lucid": "^22.4.2",
     "@adonisjs/session": "^8.1.0",
     "@adonisjs/tsconfig": "^2.0.0",
     "@types/node": "^25.8.0",
     "esbuild": "^0.28.0",
+    "eslint": "^10.4.0",
     "preact": "^10.29.2",
     "typescript": "^6.0.3",
     "vitest": "^3.2.4"

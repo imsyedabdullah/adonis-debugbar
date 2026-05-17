@@ -1,34 +1,34 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { subscribeToCaptures, getInitialPageId, registerRequest } from '../interceptors'
-import type { CapturedRequest, DebugbarData } from '../types'
+import { useState, useEffect, useCallback, useRef } from 'preact/compat';
+import { subscribeToCaptures, getInitialPageId, registerRequest } from '../interceptors';
+import type { CapturedRequest, DebugbarData } from '../types';
 
-const MAX = 50
+const MAX = 50;
 
 export function useDebugbarRequests(baseUrl = '') {
-  const [requests, setRequests] = useState<CapturedRequest[]>([])
-  const initialLoadDone = useRef(false)
+  const [requests, setRequests] = useState<CapturedRequest[]>([]);
+  const initialLoadDone = useRef(false);
 
   useEffect(() => {
     const unsubscribe = subscribeToCaptures((req) => {
-      setRequests((prev) => [req, ...prev].slice(0, MAX))
-    })
-    return unsubscribe
-  }, [])
+      setRequests((prev) => [req, ...prev].slice(0, MAX));
+    });
+    return unsubscribe;
+  }, []);
 
-  // Register the initial page load (browser navigation — not interceptable via fetch/XHR).
-  // Reads _debugbarId from the Inertia page data embedded in the DOM, fetches the full
-  // request record from the server, and dispatches it into the same capture buffer.
+  // Register the initial page load (browser navigation, not interceptable via fetch/XHR).
+  // Reads the ID from window.__DEBUGBAR_ID__ (injected via Edge view.share) with an
+  // Inertia page-props fallback, then dispatches it into the same capture buffer.
   useEffect(() => {
-    if (initialLoadDone.current) return
-    const id = getInitialPageId()
-    if (!id) return
+    if (initialLoadDone.current) return;
+    const id = getInitialPageId();
+    if (!id) return;
 
-    initialLoadDone.current = true
+    initialLoadDone.current = true;
 
     fetch(`${baseUrl}/__debugbar/requests/${id}`)
       .then((r) => (r.ok ? (r.json() as Promise<DebugbarData>) : null))
       .then((data) => {
-        if (!data) return
+        if (!data) return;
         registerRequest({
           id: data.id,
           method: data.method,
@@ -36,12 +36,12 @@ export function useDebugbarRequests(baseUrl = '') {
           status: data.status,
           duration: data.timeline.total,
           timestamp: data.timestamp,
-        })
+        });
       })
-      .catch(() => {})
-  }, [baseUrl])
+      .catch(() => {});
+  }, [baseUrl]);
 
-  const clear = useCallback(() => setRequests([]), [])
+  const clear = useCallback(() => setRequests([]), []);
 
-  return { requests, clear }
+  return { requests, clear };
 }

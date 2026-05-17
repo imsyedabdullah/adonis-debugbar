@@ -1,4 +1,4 @@
-// Shared design tokens — light mode, Laravel Debugbar inspired
+// Shared design tokens, light mode, Laravel Debugbar inspired
 export const s = {
   // Backgrounds
   bg: '#ffffff',
@@ -46,24 +46,28 @@ export const s = {
   codeKw: '#cf222e',
   codeString: '#0a3069',
   codeNumber: '#0550ae',
-}
+};
 
 export function statusColor(status: number): string {
-  if (status < 300) return s.status2xx
-  if (status < 400) return s.status3xx
-  return s.status4xx
+  if (status < 300) return s.status2xx;
+  if (status < 400) return s.status3xx;
+  return s.status4xx;
 }
 
 export function methodColor(method: string): string {
   const map: Record<string, string> = {
-    GET: s.blue, POST: s.green, PUT: s.yellow,
-    PATCH: s.orange, DELETE: s.red, HEAD: s.purple,
-  }
-  return map[method] ?? s.textSecondary
+    GET: s.blue,
+    POST: s.green,
+    PUT: s.yellow,
+    PATCH: s.orange,
+    DELETE: s.red,
+    HEAD: s.purple,
+  };
+  return map[method] ?? s.textSecondary;
 }
 
 export function durationColor(ms: number): string {
-  if (ms > 500) return s.red
-  if (ms > 100) return s.yellow
-  return s.green
+  if (ms > 500) return s.red;
+  if (ms > 100) return s.yellow;
+  return s.green;
 }
