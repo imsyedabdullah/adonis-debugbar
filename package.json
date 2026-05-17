@@ -1,0 +1,102 @@
+{
+  "name": "adonis-debugbar",
+  "version": "0.1.0",
+  "description": "Per-request debug bar for AdonisJS — timing, SQL queries, route info, session, views, messages, exceptions and timeline markers. Works with any frontend stack.",
+  "type": "module",
+  "author": "Syed Abdullah <2syedabdullah@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imsyedabdullah/adonis-debugbar.git"
+  },
+  "homepage": "https://github.com/imsyedabdullah/adonis-debugbar#readme",
+  "bugs": {
+    "url": "https://github.com/imsyedabdullah/adonis-debugbar/issues"
+  },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./middleware": "./src/middleware.ts",
+    "./provider": "./src/provider.ts"
+  },
+  "publishConfig": {
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./build/index.js",
+        "types": "./build/index.d.ts"
+      },
+      "./middleware": {
+        "import": "./build/middleware.js",
+        "types": "./build/middleware.d.ts"
+      },
+      "./provider": {
+        "import": "./build/provider.js",
+        "types": "./build/provider.d.ts"
+      }
+    }
+  },
+  "files": [
+    "build",
+    "public",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "pnpm run build:ui && tsc --project tsconfig.json",
+    "build:ui": "esbuild ui/main.ts --bundle --format=iife --platform=browser --outfile=public/debugbar.js --alias:react=preact/compat --alias:react-dom=preact/compat --jsx=automatic --jsx-import-source=preact --minify",
+    "dev:ui": "esbuild ui/main.ts --bundle --format=iife --platform=browser --outfile=public/debugbar.js --alias:react=preact/compat --alias:react-dom=preact/compat --jsx=automatic --jsx-import-source=preact --sourcemap --watch",
+    "dev": "tsc --project tsconfig.json --watch",
+    "prepublishOnly": "pnpm run build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src ui",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "adonis",
+    "adonisjs",
+    "adonisjs-debugbar",
+    "adonis-debugbar",
+    "adonis-query-logger",
+    "adonis-query-debugger",
+    "adonis-debugger",
+    "adonis-profilerr",
+    "adonis-devtools",
+    "adonis-timeline",
+    "debugbar",
+    "debug-toolbar",
+    "profiler",
+    "devtools",
+    "sql",
+    "queries",
+    "explain",
+    "timeline",
+    "inertia",
+    "vue",
+    "development"
+  ],
+  "devDependencies": {
+    "@adonisjs/lucid": "^22.4.2",
+    "@adonisjs/session": "^8.1.0",
+    "@adonisjs/tsconfig": "^2.0.0",
+    "@types/node": "^25.8.0",
+    "esbuild": "^0.28.0",
+    "preact": "^10.29.2",
+    "typescript": "^6.0.3",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@adonisjs/core": "^6.0.0 || ^7.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@adonisjs/lucid": {
+      "optional": true
+    },
+    "@adonisjs/session": {
+      "optional": true
+    }
+  }
+}
