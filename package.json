@@ -41,6 +41,7 @@
   "files": [
     "build",
     "public",
+    "SECURITY.md",
     "README.md",
     "LICENSE"
   ],
