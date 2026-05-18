@@ -1,13 +1,11 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import { ringBuffer } from './store.ts';
+import { getDbRef } from './db_ref.ts';
 import type { DbClient, ExplainResult } from './types.ts';
 import { normaliseClient, buildTimings, parsePgTimings } from './utils.ts';
 
 export default class DebugbarController {
   public request({ params, response }: HttpContext) {
-    // const allIds = ringBuffer.list().map((e) => e.id);
-    // console.log("[debugbar] lookup id:", params.id);
-    // console.log("[debugbar] ring buffer ids:", allIds);
     const entry = ringBuffer.get(params.id);
     if (!entry) return response.notFound({ error: 'Request not found' });
     return response.json(entry);
@@ -29,7 +27,7 @@ export default class DebugbarController {
     if (!query) return response.notFound({ error: 'Query not found' });
 
     try {
-      const dbClient = await this.resolveDbClient();
+      const dbClient = this.resolveDbClient();
       const result = await this.runExplain(dbClient, query.sql, query.bindings, query.duration);
       return response.json(result);
     } catch (err) {
@@ -48,7 +46,7 @@ export default class DebugbarController {
     const entry = ringBuffer.get(requestId);
     if (!entry) return response.notFound({ error: 'Request not found' });
 
-    const dbClient = await this.resolveDbClient();
+    const dbClient = this.resolveDbClient();
 
     const results = await Promise.all(
       entry.queries.entries.map(async (query, i) => {
@@ -64,18 +62,18 @@ export default class DebugbarController {
     return response.json(results);
   }
 
-  private async resolveDbClient(): Promise<DbClient> {
-    const { default: db } = await import('@adonisjs/lucid/services/db');
-    const raw = db as unknown as Record<string, unknown>;
+  private resolveDbClient(): DbClient {
+    const db = getDbRef() as Record<string, unknown> | undefined;
+    if (!db) return 'unknown';
     try {
-      const manager = raw.manager as Record<string, unknown> | undefined;
+      const manager = db.manager as Record<string, unknown> | undefined;
       const connections = manager?.connections;
       if (connections instanceof Map) {
         const first = connections.values().next().value as Record<string, unknown> | undefined;
         const client = (first?.config as Record<string, unknown> | undefined)?.client;
         return normaliseClient(client);
       }
-      const config = raw.config as Record<string, unknown> | undefined;
+      const config = db.config as Record<string, unknown> | undefined;
       return normaliseClient(config?.client);
     } catch {
       return 'unknown';
@@ -88,7 +86,7 @@ export default class DebugbarController {
     driverMs: number,
   ): Promise<ExplainResult> {
     // EXPLAIN ANALYZE executes the query; wrap in a transaction we always rollback
-    const { default: db } = await import('@adonisjs/lucid/services/db');
+    const db = getDbRef() as any;
     const trx = await db.transaction();
     try {
       const result = await trx.rawQuery(`EXPLAIN (ANALYZE, BUFFERS) ${sql}`, bindings as any[]);
@@ -110,7 +108,7 @@ export default class DebugbarController {
     bindings: unknown[],
     driverMs: number,
   ): Promise<ExplainResult> {
-    const { default: db } = await import('@adonisjs/lucid/services/db');
+    const db = getDbRef() as any;
 
     // Try EXPLAIN ANALYZE (MySQL 8.0+) first; fall back to plain EXPLAIN
     let rows: Record<string, unknown>[];
@@ -133,25 +131,6 @@ export default class DebugbarController {
     };
   }
 
-  private async explainSqlite(
-    client: 'sqlite3' | 'better-sqlite3',
-    sql: string,
-    bindings: unknown[],
-    driverMs: number,
-  ): Promise<ExplainResult> {
-    const { default: db } = await import('@adonisjs/lucid/services/db');
-    const result = await db.rawQuery(`EXPLAIN QUERY PLAN ${sql}`, bindings as any[]);
-    const plan = (result.rows as Record<string, unknown>[])
-      .map((r) => String(r.detail ?? r.DETAIL ?? JSON.stringify(r)))
-      .join('\n');
-    return {
-      dbClient: client,
-      plan,
-      supported: true,
-      timings: buildTimings(driverMs, null, null),
-    };
-  }
-
   private async runExplain(
     dbClient: DbClient,
     sql: string,
@@ -163,8 +142,15 @@ export default class DebugbarController {
     if (dbClient === 'pg') return this.explainPg(sql, bindings, driverMs);
     if (dbClient === 'mysql' || dbClient === 'mysql2')
       return this.explainMysql(dbClient, sql, bindings, driverMs);
-    if (dbClient === 'sqlite3' || dbClient === 'better-sqlite3')
-      return this.explainSqlite(dbClient, sql, bindings, driverMs);
+    if (dbClient === 'sqlite3' || dbClient === 'better-sqlite3') {
+      return {
+        dbClient,
+        plan: '',
+        supported: false,
+        timings: noTimings,
+        note: 'EXPLAIN is not supported for SQLite. Use a query profiler or add manual timing markers instead.',
+      };
+    }
 
     if (dbClient === 'mssql') {
       return {
@@ -186,7 +172,7 @@ export default class DebugbarController {
     }
 
     try {
-      const { default: db } = await import('@adonisjs/lucid/services/db');
+      const db = getDbRef() as any;
       const res = await db.rawQuery(`EXPLAIN ${sql}`, bindings as any[]);
       const rows = res.rows as Record<string, unknown>[];
       return {

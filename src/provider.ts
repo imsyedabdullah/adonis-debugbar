@@ -1,6 +1,7 @@
 import type { ApplicationService } from '@adonisjs/core/types';
 import { storage } from './store.ts';
 import { captureCallSite } from './callsite.ts';
+import { setDbRef } from './db_ref.ts';
 import type { LogLevel } from './types.ts';
 
 function safeArg(v: unknown): unknown {
@@ -60,6 +61,7 @@ export default class DebugbarProvider {
     // Enable Lucid debug mode so db:query events fire for every connection
     try {
       const db = (await this.app.container.make('lucid.db')) as unknown as Record<string, unknown>;
+      setDbRef(db);
       const manager = db?.manager as Record<string, unknown> | undefined;
       const connections = manager?.connections;
 
