@@ -39,13 +39,7 @@ jobs:
         with: { node-version: 22, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       - name: Start DB
-        run: docker compose -f docker-compose.test.yml up -d ${{ matrix.engine }}
-      - name: Wait for DB
-        run: |
-          for i in {1..30}; do
-            if docker compose -f docker-compose.test.yml ps | grep -q "healthy"; then break; fi
-            sleep 2
-          done
+        run: docker compose -f docker-compose.test.yml up -d --wait ${{ matrix.engine }}
       - run: pnpm test:database
         env:
           TEST_ENGINE: ${{ matrix.engine }}

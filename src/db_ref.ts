@@ -1,9 +1,9 @@
-let _db: unknown = undefined;
+let dbRef: unknown;
 
 export function setDbRef(db: unknown): void {
-  _db = db;
+  dbRef = db;
 }
 
 export function getDbRef(): unknown {
-  return _db;
+  return dbRef;
 }
