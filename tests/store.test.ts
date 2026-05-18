@@ -1,5 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { RingBuffer } from '../backend/store.ts';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { RingBuffer } from '../src/store.ts';
+import DebugbarController from '../src/debugbar_controller.ts';
+import { setDbRef } from '../src/db_ref.ts';
 
 describe('RingBuffer', () => {
   it('stores and retrieves an entry by id', () => {
@@ -45,5 +47,38 @@ describe('RingBuffer', () => {
   it('list() returns empty array when buffer is empty', () => {
     const buf = new RingBuffer(10);
     expect(buf.list()).toEqual([]);
+  });
+});
+
+describe('runExplain — unsupported engines (no DB required)', () => {
+  let controller: DebugbarController;
+
+  beforeEach(() => {
+    setDbRef(undefined);
+    controller = new DebugbarController();
+  });
+
+  it('reports unsupported for better-sqlite3 with a SQLite note', async () => {
+    const result = await controller.runExplain('better-sqlite3', 'SELECT 1', [], 1);
+    expect(result.supported).toBe(false);
+    expect(result.note).toMatch(/SQLite/);
+  });
+
+  it('reports unsupported for sqlite3 with a SQLite note', async () => {
+    const result = await controller.runExplain('sqlite3', 'SELECT 1', [], 1);
+    expect(result.supported).toBe(false);
+    expect(result.note).toMatch(/SQLite/);
+  });
+
+  it('reports unsupported for mssql with guidance', async () => {
+    const result = await controller.runExplain('mssql', 'SELECT 1', [], 1);
+    expect(result.supported).toBe(false);
+    expect(result.note).toMatch(/MSSQL/);
+  });
+
+  it('reports unsupported for oracledb with guidance', async () => {
+    const result = await controller.runExplain('oracledb', 'SELECT 1', [], 1);
+    expect(result.supported).toBe(false);
+    expect(result.note).toMatch(/Oracle/i);
   });
 });

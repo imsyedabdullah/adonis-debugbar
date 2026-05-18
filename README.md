@@ -1,5 +1,10 @@
 # adonis-debugbar
 
+[![Test](https://github.com/imsyedabdullah/adonis-debugbar/actions/workflows/test.yml/badge.svg)](https://github.com/imsyedabdullah/adonis-debugbar/actions/workflows/test.yml)
+[![npm version](https://img.shields.io/npm/v/adonis-debugbar)](https://www.npmjs.com/package/adonis-debugbar)
+[![npm downloads](https://img.shields.io/npm/dm/adonis-debugbar)](https://www.npmjs.com/package/adonis-debugbar)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL--3.0-blue.svg)](./COPYING)
+
 Per-request debug bar for AdonisJS 6 / 7. Captures timing, SQL queries, route info, session data, log messages, exceptions, and custom timeline markers, all scoped to the current HTTP request via `AsyncLocalStorage`. Zero overhead when disabled.
 
 Works with **any** AdonisJS frontend: Edge templates, Inertia + React, Inertia + Vue, or API-only apps that render HTML.
@@ -65,7 +70,7 @@ server.use([
 ]);
 ```
 
-### 3: Enable via environment variable
+### 3: Enable the environment variable
 
 ```env
 # .env

@@ -1,0 +1,54 @@
+services:
+  pg17:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: test
+    ports: ["55017:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  pg13:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: test
+    ports: ["55013:5432"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  mysql84:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: test
+    ports: ["33084:3306"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptest"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  mysql57:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: test
+    ports: ["33057:3306"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptest"]
+      interval: 3s
+      timeout: 3s
+      retries: 20

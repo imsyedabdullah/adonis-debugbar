@@ -111,15 +111,16 @@ export default class DebugbarController {
     const db = getDbRef() as any;
 
     // Try EXPLAIN ANALYZE (MySQL 8.0+) first; fall back to plain EXPLAIN
+    // mysql2 rawQuery result is [rows, fields] tuple, not { rows } like pg
     let rows: Record<string, unknown>[];
     let usedAnalyze = false;
     try {
       const res = await db.rawQuery(`EXPLAIN ANALYZE ${sql}`, bindings as any[]);
-      rows = res.rows as Record<string, unknown>[];
+      rows = (Array.isArray(res) ? res[0] : res.rows) as Record<string, unknown>[];
       usedAnalyze = true;
     } catch {
       const res = await db.rawQuery(`EXPLAIN ${sql}`, bindings as any[]);
-      rows = res.rows as Record<string, unknown>[];
+      rows = (Array.isArray(res) ? res[0] : res.rows) as Record<string, unknown>[];
     }
 
     return {
@@ -131,7 +132,7 @@ export default class DebugbarController {
     };
   }
 
-  private async runExplain(
+  public async runExplain(
     dbClient: DbClient,
     sql: string,
     bindings: unknown[],

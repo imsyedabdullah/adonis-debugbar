@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normaliseClient, buildTimings, parsePgTimings } from '../backend/utils.ts';
+import { normaliseClient, buildTimings, parsePgTimings } from '../src/utils.ts';
 
 describe('normaliseClient', () => {
   it('normalises postgres variants', () => {
