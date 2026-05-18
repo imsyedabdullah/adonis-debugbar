@@ -34,7 +34,7 @@ services:
       MYSQL_PASSWORD: test
     ports: ["33084:3306"]
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptest"]
+      test: ["CMD", "mysql", "-h", "127.0.0.1", "-uroot", "-ptest", "test", "-e", "SELECT 1"]
       interval: 3s
       timeout: 3s
       retries: 20
@@ -48,7 +48,7 @@ services:
       MYSQL_PASSWORD: test
     ports: ["33057:3306"]
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ptest"]
+      test: ["CMD", "mysql", "-h", "127.0.0.1", "-uroot", "-ptest", "test", "-e", "SELECT 1"]
       interval: 3s
       timeout: 3s
       retries: 20
