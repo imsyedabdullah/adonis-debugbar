@@ -4,7 +4,7 @@
   "description": "Per-request debug bar for AdonisJS: timing, SQL queries, route info, session, views, messages, exceptions and timeline markers. Works with any frontend stack.",
   "type": "module",
   "author": "Syed Abdullah <2syedabdullah@gmail.com>",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "https://github.com/imsyedabdullah/adonis-debugbar.git"

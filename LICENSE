@@ -1,21 +1,42 @@
-MIT License
+adonis-debugbar
+Copyright (C) 2026 Syed Abdullah
 
-Copyright (c) 2025 Syed Abdullah
+adonis-debugbar is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License version 3 as published by the Free Software Foundation.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+You do not have to do anything special to accept this license, and you are not required to notify anyone that you are using this software.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+adonis-debugbar is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+See the GNU Affero General Public License version 3 for more details.
+
+You should have received a copy of the GNU Affero General Public License version 3 along with adonis-debugbar.
+If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
+
+
+Our interpretation of the GNU Affero General Public License version 3
+(Quoted words refer to terms defined by the license itself.)
+
+1. You must always provide the source code, copyright notice, and license information of adonis-debugbar whenever you "convey" any part of it, whether modified or unmodified.
+
+2. adonis-debugbar was developed as a standalone library and therefore without knowledge of your application or work. Because of this:
+
+   a) adonis-debugbar should generally not be considered a work "based on" your application solely because it is used within it.
+
+   b) If you have not modified, adapted, or extended adonis-debugbar itself, then your own application should not become subject to the AGPL merely by using it as part of an aggregate work.
+
+   c) If you modify, adapt, or extend adonis-debugbar itself, then those modifications must remain licensed under the AGPLv3 when conveyed.
+
+3. If you use adonis-debugbar over a network in a way covered by the AGPLv3, users interacting with it must be able to access the corresponding source code as required by the license.
+
+We hope this interpretation aligns with the goals and freedoms intended by the AGPLv3 while helping developers feel comfortable adopting and contributing to adonis-debugbar.
+
+If you have questions regarding licensing, you may contact:
+
+Syed Abdullah
+2syedabdullah@gmail.com
+
+You may also contact the Free Software Foundation at:
+licensing@fsf.org
+
+Thanks for using adonis-debugbar.
