@@ -44,7 +44,7 @@
 		"dev": "npm-run-all --parallel dev:ui dev:src",
 		"dev:src": "tsc --project tsconfig.json --watch",
 		"dev:ui": "esbuild ui/main.ts --bundle --format=iife --platform=browser --outfile=public/debugbar.js --alias:react=preact/compat --alias:react-dom=preact/compat --jsx=automatic --jsx-import-source=preact --sourcemap --watch",
-		"prepublishOnly": "npm-run-all build lint test",
+		"prepublishOnly": "npm-run-all build lint typecheck test:unit",
 		"typecheck": "tsc --noEmit && tsc --noEmit --project tsconfig.ui.json",
 		"format": "eslint src ui --fix",
 		"lint": "eslint src ui",
