@@ -7,7 +7,7 @@ const mount = () => {
   const el = document.createElement('div');
   el.id = '__debugbar-root';
   document.body.appendChild(el);
-  render(createElement(Debugbar, {}), el);
+  render(createElement(Debugbar, { baseUrl: '' }), el);
 };
 
 if (document.readyState === 'loading') {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'preact/compat';
+import { useCallback, useState, Fragment } from 'preact/compat';
 import type { QueryRecord, ExplainResult, ExplainTimings } from '../../types';
 import { s, durationColor } from '../styles';
 import { CopyButton } from '../CopyButton';
@@ -700,7 +700,7 @@ export function Queries({ queries, requestId, baseUrl }: Props) {
           {queries.map((q, i) => {
             const explainState: ExplainState = explains[i] ?? { status: 'idle' };
             return (
-              <React.Fragment key={i}>
+              <Fragment key={i}>
                 <tr
                   onClick={() => setExpanded(expanded === i ? null : i)}
                   style={{
@@ -842,7 +842,7 @@ export function Queries({ queries, requestId, baseUrl }: Props) {
                     </td>
                   </tr>
                 )}
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </tbody>

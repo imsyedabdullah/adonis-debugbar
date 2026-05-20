@@ -1,6 +1,6 @@
-import React, { useCallback } from 'preact/compat';
+import { useCallback } from 'preact/compat';
 import type { DebugbarData, MeasureRecord } from '../../types';
-import { s, durationColor } from '../styles';
+import { s } from '../styles';
 import { CopyButton } from '../CopyButton';
 
 function timelineToJson(data: DebugbarData): string {

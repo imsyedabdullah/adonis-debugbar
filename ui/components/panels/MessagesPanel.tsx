@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'preact/compat';
+import { useCallback, useMemo, useState } from 'preact/compat';
 import { s } from '../styles';
 import { CopyButton } from '../CopyButton';
 import type { MessageRecord, LogLevel } from '../../types';
@@ -267,7 +267,7 @@ export function MessagesPanel({ messages }: Props) {
         <input
           type="text"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => setSearch((e.target as HTMLInputElement).value)}
           placeholder="Search…"
           style={{
             padding: '3px 8px',

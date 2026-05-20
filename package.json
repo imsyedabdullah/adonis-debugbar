@@ -13,29 +13,20 @@
 	"bugs": {
 		"url": "https://github.com/imsyedabdullah/adonis-debugbar/issues"
 	},
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
 	"exports": {
-		".": "./src/index.ts",
-		"./middleware": "./src/middleware.ts",
-		"./provider": "./src/provider.ts"
-	},
-	"publishConfig": {
-		"main": "./build/index.js",
-		"types": "./build/index.d.ts",
-		"exports": {
-			".": {
-				"import": "./build/index.js",
-				"types": "./build/index.d.ts"
-			},
-			"./middleware": {
-				"import": "./build/middleware.js",
-				"types": "./build/middleware.d.ts"
-			},
-			"./provider": {
-				"import": "./build/provider.js",
-				"types": "./build/provider.d.ts"
-			}
+		".": {
+			"import": "./build/index.js",
+			"types": "./build/index.d.ts"
+		},
+		"./middleware": {
+			"import": "./build/middleware.js",
+			"types": "./build/middleware.d.ts"
+		},
+		"./provider": {
+			"import": "./build/provider.js",
+			"types": "./build/provider.d.ts"
 		}
 	},
 	"files": [
@@ -47,15 +38,17 @@
 		"LICENSE"
 	],
 	"scripts": {
-		"build": "pnpm run build:ui && tsc --project tsconfig.json",
+		"build": "npm-run-all --parallel build:ui build:src",
+		"build:src": "tsc --project tsconfig.json",
 		"build:ui": "esbuild ui/main.ts --bundle --format=iife --platform=browser --outfile=public/debugbar.js --alias:react=preact/compat --alias:react-dom=preact/compat --jsx=automatic --jsx-import-source=preact --minify",
+		"dev": "npm-run-all --parallel dev:ui dev:src",
+		"dev:src": "tsc --project tsconfig.json --watch",
 		"dev:ui": "esbuild ui/main.ts --bundle --format=iife --platform=browser --outfile=public/debugbar.js --alias:react=preact/compat --alias:react-dom=preact/compat --jsx=automatic --jsx-import-source=preact --sourcemap --watch",
-		"dev": "tsc --project tsconfig.json --watch",
-		"prepublishOnly": "pnpm run build",
-		"typecheck": "tsc --noEmit",
+		"prepublishOnly": "npm-run-all build lint test",
+		"typecheck": "tsc --noEmit && tsc --noEmit --project tsconfig.ui.json",
 		"format": "eslint src ui --fix",
 		"lint": "eslint src ui",
-		"test": "pnpm run db:up && pnpm run test:unit && pnpm run test:database && pnpm run db:down",
+		"test": "npm-run-all db:up test:unit test:database db:down",
 		"test:unit": "vitest run tests/store.test.ts tests/utils.test.ts",
 		"test:database": "vitest run tests/database.test.ts",
 		"db:up": "docker compose -f docker-compose.test.yml up -d",
@@ -91,10 +84,12 @@
 		"@adonisjs/session": "^8.1.0",
 		"@adonisjs/tsconfig": "^2.0.0",
 		"@types/node": "^25.8.0",
+		"@types/react": "^19.2.15",
 		"esbuild": "^0.28.0",
 		"eslint": "^10.4.0",
 		"luxon": "^3.7.2",
 		"mysql2": "^3.22.3",
+		"npm-run-all": "^4.1.5",
 		"pg": "^8.21.0",
 		"preact": "^10.29.2",
 		"typescript": "^6.0.3",

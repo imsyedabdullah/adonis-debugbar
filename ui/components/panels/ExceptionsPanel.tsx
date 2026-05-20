@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'preact/compat';
+import { useCallback, useState } from 'preact/compat';
 import { s } from '../styles';
 import { CopyButton } from '../CopyButton';
 import type { ExceptionRecord } from '../../types';
@@ -50,27 +50,6 @@ function StackTrace({ stack }: { stack: string }) {
         );
       })}
     </div>
-  );
-}
-
-function SourceBadge({ source }: { source: 'backend' | 'frontend' }) {
-  const color = source === 'backend' ? s.purple : s.green;
-  return (
-    <span
-      style={{
-        padding: '1px 5px',
-        borderRadius: 3,
-        fontSize: 10,
-        fontWeight: 700,
-        fontFamily: 'monospace',
-        background: color + '22',
-        color,
-        flexShrink: 0,
-        letterSpacing: 0.3,
-      }}
-    >
-      {source === 'backend' ? 'Backend' : 'Frontend'}
-    </span>
   );
 }
 

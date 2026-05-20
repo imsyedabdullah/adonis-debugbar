@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'preact/compat';
+import { useState, useCallback } from 'preact/compat';
 import { s } from './styles';
 
 interface Props {

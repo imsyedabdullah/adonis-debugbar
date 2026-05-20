@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'preact/compat';
+import { useCallback, useState } from 'preact/compat';
 import type { DebugbarData } from '../../types';
 import { s, statusColor, methodColor } from '../styles';
 import { CopyButton } from '../CopyButton';

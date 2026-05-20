@@ -1,4 +1,4 @@
-import React, { useCallback } from 'preact/compat';
+import { useCallback } from 'preact/compat';
 import type { RouteInfo } from '../../types';
 import { s, methodColor } from '../styles';
 import { CopyButton } from '../CopyButton';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'preact/compat';
+import { useState, useEffect, useRef, useCallback } from 'preact/compat';
 import { useDebugbarRequests } from '../hooks/use-debugbar-requests';
 import { useDebugbarData } from '../hooks/use-debugbar-data';
 import { Timeline } from './panels/Timeline';
@@ -381,7 +381,7 @@ export function Debugbar({ baseUrl = '' }: Props) {
     };
   }, []);
 
-  const startDrag = useCallback((e: React.MouseEvent) => {
+  const startDrag = useCallback((e: MouseEvent) => {
     draggingRef.current = true;
     startYRef.current = e.clientY;
     startHeightRef.current = heightRef.current;

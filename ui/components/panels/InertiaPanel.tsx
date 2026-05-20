@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'preact/compat';
+import { useCallback, useState } from 'preact/compat';
 import { s } from '../styles';
 import { CopyButton } from '../CopyButton';
 import type { InertiaPageSnapshot } from '../../types';
