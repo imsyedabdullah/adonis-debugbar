@@ -6,24 +6,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm typecheck
-      - run: pnpm lint
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
 
   unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm test:unit
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run test:unit
 
   integration:
     runs-on: ubuntu-latest
@@ -33,13 +29,11 @@ jobs:
         engine: [pg17, pg13, mysql84, mysql57]
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
       - name: Start DB
         run: docker compose -f docker-compose.test.yml up -d --wait ${{ matrix.engine }}
-      - run: pnpm test:database
+      - run: npm run test:database
         env:
           TEST_ENGINE: ${{ matrix.engine }}

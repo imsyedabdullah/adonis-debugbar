@@ -1,6 +1,6 @@
 {
 	"name": "adonis-debugbar",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Per-request debug bar for AdonisJS: timing, SQL queries, route info, session, views, messages, exceptions and timeline markers. Works with any frontend stack.",
 	"type": "module",
 	"author": "Syed Abdullah <2syedabdullah@gmail.com>",
