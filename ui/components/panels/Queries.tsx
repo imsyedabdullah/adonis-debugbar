@@ -763,6 +763,19 @@ export function Queries({ queries, requestId, baseUrl }: Props) {
                         <SqlHighlight sql={formatSql(q.sql)} />
                       </pre>
 
+                      {/* Copy SQL button */}
+                      <div style={{ marginTop: 8, display: 'flex', gap: 6 }}>
+                        <CopyButton getData={() => q.sql} label="Copy SQL" />
+                        {q.bindings.length > 0 && (
+                          <CopyButton
+                            getData={() =>
+                              JSON.stringify({ sql: q.sql, bindings: q.bindings }, null, 2)
+                            }
+                            label="Copy with Bindings"
+                          />
+                        )}
+                      </div>
+
                       {/* Bindings */}
                       {q.bindings.length > 0 && (
                         <div style={{ marginTop: 8, fontSize: 11, color: s.textSecondary }}>
